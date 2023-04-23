@@ -17,6 +17,16 @@ var Employee_Tracker = function () {
         message: 'Hello user! What would you like to do?',
         choices:['View all Departments', 'View All Roles', 'View All Employees', 
         'Add a new Department', 'Add a new Role','Add an new Employee', 'Update an existing Employee Role', 'Log Out'] //Might add Other elements later
-
-    }])
+    }]).then(answers) => {
+        //Should View the Department Table in the Database
+        if (answers.prompt ==='View All Department') {
+            db.query(`Select = FROM department`,(err,result) => {
+                if (err) throw err;
+                console.log ("Viewing All Department: ");
+                console.table(result);
+                employee_tracker();
+            });
+            }
+        }
+    }
 }
