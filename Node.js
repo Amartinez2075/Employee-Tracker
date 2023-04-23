@@ -1,6 +1,6 @@
 // Package Requirements for project and also definitions and dependencies
 const inquirer = require('inquirer');
-const db = require('Database\connections.js')
+const db = require('./Database/connections.js');
 
 // Start server after the DB connection 
 db.connect(err => {
@@ -17,16 +17,31 @@ var Employee_Tracker = function () {
         message: 'Hello user! What would you like to do?',
         choices:['View all Departments', 'View All Roles', 'View All Employees', 
         'Add a new Department', 'Add a new Role','Add an new Employee', 'Update an existing Employee Role', 'Log Out'] //Might add Other elements later
-    }]).then(answers) => {
+    }]).then((answers) => {
         //Should View the Department Table in the Database
         if (answers.prompt ==='View All Department') {
-            db.query(`Select = FROM department`,(err,result) => {
+            db.query(`Select * FROM department`,(err,result) => {
                 if (err) throw err;
                 console.log ("Viewing All Department: ");
                 console.table(result);
+                Employee_Tracker();
+            });
+        // Should view all roles 
+        } else if (answers.prompt === 'View All Roles') {
+            db.query(`SELECT * FROM role`, (err, result) => {
+                if (err) throw err;
+                console.log("Viewing All Roles: ");
+                console.table(result);
                 employee_tracker();
             });
-            }
+        // Should view all employees
+        } else if (answers.prompt === 'View All Employees') {
+            db.query(`SELECT * FROM employee`, (err, result) => {
+                if (err) throw err;
+                console.log("Viewing All Employees: ");
+                console.table(result);
+                employee_tracker();
+            });
         }
-    }
-}
+    });
+};
