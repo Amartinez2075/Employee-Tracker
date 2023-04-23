@@ -36,3 +36,7 @@ Values
     ('Location Manager',60000,3)
 
 -- Information Technology Department Roles
+    ('Junior IT Associate',50000,4)
+    ('Senior IT Associate',70000,4)
+    ('CyberSecurity Expert',95000,4)
+    ('FullStack Website Developer,',57000,4)
