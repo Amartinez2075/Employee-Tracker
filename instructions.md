@@ -33,3 +33,14 @@ When a user chooses to view information about a department, a table is displayed
 When a user chooses to add a department, they are prompted to enter the department's name, and it is added to the database. When a user chooses to add a role, they are prompted to enter the role's name, salary, and department, and it is added to the database. When a user chooses to add an employee, they are prompted to enter the employee's first name, last name, role, and manager, and the employee is added to the database.
 
 Finally, when a user chooses to update an employee's role, they are prompted to select the employee to update and the new role, and this information is updated in the database.
+
+
+## Running Node.js with MYSQL
+
+make sure the your in the following directory
+
+PS C:\Users\Ashar\bootcamp\Module Challenges\Employee Tracker>
+
+You can do this by right clicking on Node.js and clicking 
+
+Open in intergrated terminal
