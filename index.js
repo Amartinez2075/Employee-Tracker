@@ -1,6 +1,6 @@
 // Package Requirements for project and also definitions and dependencies
 const inquirer = require('inquirer');
-const db = require('Database\connection.js');
+const db = require('.\Database\connection.js');
 
 // Start server after the DB connection 
 db.connect(err => {
