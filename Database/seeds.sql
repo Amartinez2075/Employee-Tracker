@@ -1,5 +1,3 @@
---DST = Department,Salary, & Title
-
 -- Inserts names of departments into a department table
 
 INSERT INTO department
