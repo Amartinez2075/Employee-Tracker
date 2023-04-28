@@ -100,6 +100,8 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
+//WILL NEED TO ADD CODE FOR UPDATING AN EXISTING EMPLOYEE ROLE
+
       // Should View Update an Existing Department in the DataBase
       else if (answers.prompt === 'Update an Existing Department') {
         db.query(`SELECT * FROM update an existing department`, (err, result) => {
@@ -109,6 +111,8 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
+// WILL NEED TO ADD CODE FOR UPDATING AN EXISTING DEPARTMENT
+
       // Should let the User be able to log out.
       else if (answers.prompt === 'Log Out') {
         console.log('Logging Out');
