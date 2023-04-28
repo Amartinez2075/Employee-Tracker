@@ -101,5 +101,4 @@ function Employee_Tracker() {
       }
       else if (answers.prompt === 'Log Out') {
         console.log('Logging Out');
-      }
-        // Add code to handle logging out
+       }})}; // Add code to handle logging out
