@@ -41,7 +41,7 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
-      // Should view all roles
+      // Should view all roles Table in the Database
       else if (answers.prompt === 'View All Roles') {
         db.query(`SELECT * FROM role`, (err, result) => {
           if (err) throw err;
@@ -50,7 +50,7 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
-      // Should view all employees
+      // Should view all employees in the Database
       else if (answers.prompt === 'View All Employees') {
         db.query(`SELECT * FROM employee`, (err, result) => {
           if (err) throw err;
@@ -59,6 +59,7 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
+      // Should View Add a New Department in the DataBase
       else if (answers.prompt === 'Add a New Department') {
         db.query(`SELECT * FROM department`, (err, result) => {
           if (err) throw err;
@@ -67,6 +68,9 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
+// WILL NEED TO ADD CODE FOR ADDING A DEPARTMENT NAME
+
+      // Should View Add a New Role in the DataBase
       else if (answers.prompt === 'Add a New Role') {
         db.query(`SELECT * FROM role`, (err, result) => {
           if (err) throw err;
@@ -75,6 +79,9 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
+
+// WILL NEED TO ADD CODE FOR ADDING A NEW ROLE
+      // Should View Add a New Employee in the DataBase
       else if (answers.prompt === 'Add a New Employee') {
         db.query(`SELECT * FROM employee`, (err, result) => {
           if (err) throw err;
@@ -83,6 +90,8 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
+// WILL NEED TO ADD CODE FOR ADDING A EMPLOYEE
+      // Should View Update an Existing Employee Role in the DataBase
       else if (answers.prompt === 'Update an Existing Employee Role') {
         db.query(`SELECT * FROM update an existing employee role`, (err, result) => {
           if (err) throw err;
@@ -91,6 +100,7 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
+      // Should View Update an Existing Department in the DataBase
       else if (answers.prompt === 'Update an Existing Department') {
         db.query(`SELECT * FROM update an existing department`, (err, result) => {
           if (err) throw err;
@@ -99,6 +109,7 @@ function Employee_Tracker() {
           Employee_Tracker();
         });
       }
+      // Should let the User be able to log out.
       else if (answers.prompt === 'Log Out') {
         console.log('Logging Out');
        }})}; // Add code to handle logging out
