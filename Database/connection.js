@@ -1,11 +1,11 @@
-const mysql = require('mysql'); // Importing the 'mysql' module
+const mysql = require('mysql');
+require('dotenv').config(); // Load environment variables from .env file
 
-// Creating a database connection configuration
 const db = mysql.createConnection({
-    host: 'localhost', // MySQL host
-    user: 'root', // MySQL username
-    password: 'Xx_cccnj456', // MySQL password
-    database: 'Employee_Tracker_db' // Name of the database
+    host: 'localhost',
+    user: 'root',
+    password: process.env.DB_PASSWORD, // Access the password from the environment variable
+    database: 'Employee_Tracker_db'
 });
 
-module.exports = db; // Exporting the database connection configuration for external use
+module.exports = db;

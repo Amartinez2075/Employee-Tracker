@@ -2,6 +2,7 @@
 const inquirer = require('inquirer');
 const db = require('./Database/connection');
 const mysql = require('mysql');
+require('dotenv').config(); // Load environment variables from .env file
 
 // Start server after the DB connection
 db.connect((err) => {
