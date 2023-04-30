@@ -1,13 +1,11 @@
-const mysql = require('mysql');
-//require('dotenv').config();
+const mysql = require('mysql'); // Importing the 'mysql' module
 
+// Creating a database connection configuration
 const db = mysql.createConnection({
-    host: 'localhost',
-    // Your MySQL username,
-    user: 'root',
-    // Your MySQL password
-    password: 'Xx_cccnj456',
-    database: 'Employee_Tracker_db'
+    host: 'localhost', // MySQL host
+    user: 'root', // MySQL username
+    password: 'Xx_cccnj456', // MySQL password
+    database: 'Employee_Tracker_db' // Name of the database
 });
 
-module.exports = db;
+module.exports = db; // Exporting the database connection configuration for external use

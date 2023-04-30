@@ -1,6 +1,7 @@
-// Package Requirements
+// Package Requirements for project and also definitions and dependencies
 const inquirer = require('inquirer');
 const db = require('./Database/connection');
+const mysql = require('mysql');
 
 // Start server after the DB connection
 db.connect((err) => {
@@ -14,6 +15,7 @@ function Employee_Tracker() {
   inquirer
     .prompt([
       {
+        // Beginning of Command Line
         type: 'list',
         name: 'prompt',
         message: 'Hello user! What would you like to do?',
@@ -27,208 +29,305 @@ function Employee_Tracker() {
           'Update an Existing Employee Role',
           'Update an Existing Department',
           'Log Out',
-        ],
+        ], // Might add other elements later
       },
     ])
     .then((answers) => {
-      switch (answers.prompt) {
-        case 'View All Departments':
-          viewDepartments();
-          break;
-        case 'View All Roles':
-          viewRoles();
-          break;
-        case 'View All Employees':
-          viewEmployees();
-          break;
-        case 'Add a New Department':
-          addDepartment();
-          break;
-        case 'Add a New Role':
-          addRole();
-          break;
-        case 'Add a New Employee':
-          addEmployee();
-          break;
-        case 'Update an Existing Employee Role':
-          updateEmployeeRole();
-          break;
-        case 'Update an Existing Department':
-          updateDepartment();
-          break;
-        case 'Log Out':
-          console.log('Logging Out');
-          break;
-        default:
-          console.log('Invalid choice');
-          Employee_Tracker();
-          break;
-      }
-    });
-}
-
-// Function to view all departments
-function viewDepartments() {
-  db.query('SELECT * FROM department', (err, result) => {
-    if (err) throw err;
-    console.log('Viewing All Departments: ');
-    console.table(result);
-    Employee_Tracker();
-  });
-}
-
-// Function to view all roles
-function viewRoles() {
-  db.query('SELECT * FROM role', (err, result) => {
-    if (err) throw err;
-    console.log('Viewing All Roles: ');
-    console.table(result);
-    Employee_Tracker();
-  });
-}
-
-// Function to view all employees
-function viewEmployees() {
-  db.query('SELECT * FROM employee', (err, result) => {
-    if (err) throw err;
-    console.log('Viewing All Employees: ');
-    console.table(result);
-    Employee_Tracker();
-  });
-}
-
-// Function to add a new department
-function addDepartment() {
-  inquirer
-    .prompt([
-      {
-        type: 'input',
-        name: 'department',
-        message: 'What is the name of the department?',
-        validate: (departmentInput) => {
-          return departmentInput.trim() !== '';
-        },
-      },
-    ])
-    .then((answers) => {
-      db.query(
-        'INSERT INTO department (name) VALUES (?)',
-        [answers.department],
-        (err, result) => {
+      // Should View the Department Table in the Database
+      if (answers.prompt === 'View All Departments') {
+        db.query(`SELECT * FROM department`, (err, result) => {
           if (err) throw err;
-          console.log(`Added ${answers.department} to the database.`);
+          console.log('Viewing All Departments: ');
+          console.table(result);
           Employee_Tracker();
-        }
-      );
-    });
-}
-
-// Function to add a new role
-function addRole() {
-  db.query('SELECT * FROM department', (err, result) => {
-    if (err) throw err;
-
-    inquirer
-      .prompt([
-        {
-          type: 'input',
-          name: 'role',
-          message: 'What is the name of the role?',
-          validate: (roleInput) => {
-            return role
-
-            employee = result.find((employee) => employee.last_name === answers.employee);
-            const role = result.find((employee) => employee.title === answers.role);
+        });
+      }
+      // Should view all roles Table in the Database
+      else if (answers.prompt === 'View All Roles') {
+        db.query(`SELECT * FROM role`, (err, result) => {
+          if (err) throw err;
+          console.log('Viewing All Roles: ');
+          console.table(result);
+          Employee_Tracker();
+        });
+      }
+      // Should view all employees in the Database
+      else if (answers.prompt === 'View All Employees') {
+        db.query(`SELECT * FROM employee`, (err, result) => {
+          if (err) throw err;
+          console.log('Viewing All Employees: ');
+          console.table(result);
+          Employee_Tracker();
+        });
+      }
+      // Should View Add a New Department in the DataBase
+      else if (answers.prompt === 'Add a New Department') {
+        inquirer
+          .prompt([
+            {
+              // Adding a Department
+              type: 'input',
+              name: 'department',
+              message: 'What is the name of the department?',
+              validate: (departmentInput) => {
+                if (departmentInput) {
+                  return true;
+                } else {
+                  console.log('Please Add A Department!');
+                  return false;
+                }
+              },
+            },
+          ])
+          .then((answers) => {
             db.query(
-              'UPDATE employee SET ? WHERE ?',
-              [{ role_id: role.id }, { last_name: employee.last_name }],
+              `INSERT INTO department (name) VALUES (?)`,
+              [answers.department],
               (err, result) => {
                 if (err) throw err;
-                console.log(`Updated ${answers.employee}'s role in the database.`);
+                console.log(`Added ${answers.department} to the database.`);
                 Employee_Tracker();
               }
             );
-          }}]);
+          });
+      }
+      // Should View Add a New Role in the DataBase
+      else if (answers.prompt === 'Add a New Role') {
+        // Beginning with the database so that we may acquire the departments for the choice
+        db.query(`SELECT * FROM department`, (err, result) => {
+          if (err) throw err;
+
+          inquirer
+            .prompt([
+              {
+                // Adding A Role
+                type: 'input',
+                name: 'role',
+                message: 'What is the name of the role?',
+                validate: (roleInput) => {
+                  if (roleInput) {
+                    return true;
+                  } else {
+                    console.log('Please Add A Role!');
+                   
+                    return false;
+                  }
+                },
+              },
+              {
+                // Adding the Salary
+                type: 'input',
+                name: 'salary',
+                message: 'What is the salary of the role?',
+                validate: (salaryInput) => {
+                  if (salaryInput) {
+                    return true;
+                  } else {
+                    console.log('Please Add A Salary!');
+                    return false;
+                  }
+                },
+              },
+              {
+                // Department
+                type: 'list',
+                name: 'department',
+                message: 'Which department does the role belong to?',
+                choices: () => {
+                  var array = [];
+                  for (var i = 0; i < result.length; i++) {
+                    array.push(result[i].name);
+                  }
+                  return array;
+                },
+              },
+            ])
+            .then((answers) => {
+              // Comparing the result and storing it into the variable
+              for (var i = 0; i < result.length; i++) {
+                if (result[i].name === answers.department) {
+                  var department = result[i];
+                }
+              }
+
+              db.query(
+                `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`,
+                [answers.role, answers.salary, department.id],
+                (err, result) => {
+                  if (err) throw err;
+                  console.log(`Added ${answers.role} to the database.`);
+                  Employee_Tracker();
+                }
+              );
+            });
         });
       }
-      
-      // Function to update an existing department
-      function updateDepartment() {
-      db.query('SELECT * FROM department', (err, result) => {
-      if (err) throw err;
-      console.log('Update an Existing Department');
-      console.table(result);
-      Employee_Tracker();
-      });
+
+      // Should View Add a New Employee in the DataBase
+      else if (answers.prompt === 'Add a New Employee') {
+        // Calling the database to acquire the roles and managers
+        db.query(`SELECT * FROM employee, role`, (err, result) => {
+          if (err) throw err;
+
+          inquirer
+            .prompt([
+              {
+                // Adding Employee First Name
+                type: 'input',
+                name: 'firstName',
+                message: 'What is the employee\'s first name?',
+                validate: (firstNameInput) => {
+                  if (firstNameInput) {
+                    return true;
+                  } else {
+                    console.log('Please Add A First Name!');
+                    return false;
+                  }
+                },
+              },
+              {
+                // Adding Employee Last Name
+                type: 'input',
+                name: 'lastName',
+                message: 'What is the employee\'s last name?',
+                validate: (lastNameInput) => {
+                  if (lastNameInput) {
+                    return true;
+                  } else {
+                    console.log('Please Add A Last Name!');
+                    return false;
+                  }
+                },
+              },
+              {
+                // Adding Employee Role
+                type: 'list',
+                name: 'role',
+                message: 'What is the employee\'s role?',
+                choices: () => {
+                  var array = [];
+                  for (var i = 0; i < result.length; i++) {
+                    array.push(result[i].title);
+                  }
+                  var newArray = [...new Set(array)];
+                  return newArray;
+                },
+              },
+              {
+                // Adding Employee Manager
+                type: 'input',
+                name: 'manager',
+                message: 'Who is the employee\'s manager?',
+                validate: (managerInput) => {
+                  if (managerInput) {
+                    return true;
+                  } else {
+                    console.log('Please Add A Manager!');
+                    return false;
+                  }
+                },
+              },
+            ])
+            .then((answers) => {
+              // Comparing the result and storing it into the variable
+              for (var i = 0; i < result.length; i++) {
+                if (result[i].title === answers.role) {
+                  var role = result[i];
+                }
+             
+                db.query(
+                  `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`,
+                  [answers.firstName, answers.lastName, role.id, answers.manager.id],
+                  (err, result) => {
+                    if (err) throw err;
+                    console.log(
+                      `Added ${answers.firstName} ${answers.lastName} to the database.`
+                    );
+                    Employee_Tracker();
+                  }
+                )};
+              });
+          });
       }
-      
-      // Function to handle the main menu options
-      function handleMainMenuChoice(choice) {
-      switch (choice) {
-      case 'View All Departments':
-      viewAllDepartments();
-      break;
-      case 'View All Roles':
-      viewAllRoles();
-      break;
-      case 'View All Employees':
-      viewAllEmployees();
-      break;
-      case 'Add a New Department':
-      addDepartment();
-      break;
-      case 'Add a New Role':
-      addRole();
-      break;
-      case 'Add a New Employee':
-      addEmployee();
-      break;
-      case 'Update an Existing Employee Role':
-      updateEmployeeRole();
-      break;
-      case 'Update an Existing Department':
-      updateDepartment();
-      break;
-      case 'Log Out':
-      console.log('Logging Out');
-      break;
-      default:
-      console.log('Invalid choice. Please try again.');
-      Employee_Tracker();
-      break;
+  
+      // Should View Update an Existing Employee Role in the DataBase
+      else if (answers.prompt === 'Update an Existing Employee Role') {
+        // Calling the database to acquire the roles and managers
+        db.query(`SELECT * FROM employee, role`, (err, result) => {
+          if (err) throw err;
+  
+          inquirer
+            .prompt([
+              {
+                // Choose an Employee to Update
+                type: 'list',
+                name: 'employee',
+                message: 'Which employee\'s role do you want to update?',
+                choices: () => {
+                  var array = [];
+                  for (var i = 0; i < result.length; i++) {
+                    array.push(result[i].last_name);
+                  }
+                  var employeeArray = [...new Set(array)];
+                  return employeeArray;
+                },
+              },
+              {
+                // Updating the New Role
+                type: 'list',
+                name: 'role',
+                message: 'What is their new role?',
+                choices: () => {
+                  var array = [];
+                  for (var i = 0; i < result.length; i++) {
+                    array.push(result[i].title);
+                  }
+                  var newArray = [...new Set(array)];
+                  return newArray;
+                },
+              },
+            ])
+            .then((answers) => {
+              // Comparing the result and storing it into the variable
+              for (var i = 0; i < result.length; i++) {
+                if (result[i].last_name === answers.employee) {
+                  var name = result[i];
+                }
+              }
+  
+              for (var i = 0; i < result.length; i++) {
+                if (result[i].title === answers.role) {
+                  var role = result[i];
+                }
+              }
+  
+              db.query(
+                `UPDATE employee SET ? WHERE ?`,
+                [{ role_id: role.id }, { last_name: name.last_name }],
+                (err, result) => {
+                  if (err) throw err;
+                  console.log(`Updated ${answers.employee}'s role in the database.`);
+                  Employee_Tracker();
+                }
+              );
+            });
+        });
       }
+  
+      // Should View Update an Existing Department in the DataBase
+      else if (answers.prompt === 'Update an Existing Department') {
+        db.query(`SELECT * FROM department`, (err, result) => {
+          if (err) throw err;
+          console.log('Update an Existing Department');
+          console.table(result);
+          Employee_Tracker();
+        });
       }
-      
-      // Function to start the Employee Tracker application
-      function startEmployeeTracker() {
-      console.log('Hello user! What would you like to do?');
-      inquirer
-      .prompt([
-      {
-      type: 'list',
-      name: 'prompt',
-      message: 'Hello user! What would you like to do?',
-      choices: [
-      'View All Departments',
-      'View All Roles',
-      'View All Employees',
-      'Add a New Department',
-      'Add a New Role',
-      'Add a New Employee',
-      'Update an Existing Employee Role',
-      'Update an Existing Department',
-      'Log Out',
-      ],
-      },
-      ])
-      .then((answers) => {
-      handleMainMenuChoice(answers.prompt);
-      });
+  
+      // Should let the User be able to log out.
+      else if (answers.prompt === 'Log Out') {
+        console.log('Logging Out');
       }
-      
-      // Start server after the DB connection
-      db.connect((err) => {
-      if (err) throw err;
-      console.log('Database is Connected');
-      startEmployeeTracker();
-      });
+    });
+  }
+  
