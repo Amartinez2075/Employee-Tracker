@@ -61,13 +61,26 @@ function Employee_Tracker() {
       }
       // Should View Add a New Department in the DataBase
       else if (answers.prompt === 'Add a New Department') {
-        db.query(`SELECT * FROM department`, (err, result) => {
-          if (err) throw err;
-          console.log('Add a New Department');
-          console.table(result);
-          Employee_Tracker();
-        });
-      }
+        inquirer.prompt([{
+          // Adding a Department
+          type: 'input',
+          name: 'department',
+          message: 'What is the name of the dpeartment?',
+          validate: departmentInput => {
+              if (departmentInput) {
+                  return true;
+              } else {
+                  console.log('Please Add A Department!');
+                  return false;
+              }
+          }
+      }]).then((answers) => {
+          db.query(`INSERT INTO department (name) VALUES (?)`, [answers.department], (err, result) => {
+              if (err) throw err;
+              console.log(`Added ${answers.department} to the database.`)
+              employee_tracker();
+          });
+      })
 // WILL NEED TO ADD CODE FOR ADDING A DEPARTMENT NAME
 
       // Should View Add a New Role in the DataBase
