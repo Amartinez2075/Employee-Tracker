@@ -47,3 +47,6 @@ THEN I am prompted to select an employee to update and their new role and this i
 ```
 ## Screenshot
 ![Command-line](https://user-images.githubusercontent.com/123604658/235376931-736cfc43-e4bc-424c-91f2-90310109f54b.png)
+
+## Video Showing Functionality
+![Showcase]
