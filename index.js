@@ -165,7 +165,7 @@ function Employee_Tracker() {
       }
 
       // Should View Add a New Employee in the DataBase
-      else if (answers.prompt === 'Add a New Employee') {
+      if (answers.prompt === 'Add a New Employee') {
         // Calling the database to acquire the roles and managers
         db.query(`SELECT * FROM employee, role`, (err, result) => {
           if (err) throw err;
@@ -234,35 +234,29 @@ function Employee_Tracker() {
               for (var i = 0; i < result.length; i++) {
                 if (result[i].title === answers.role) {
                   var role = result[i];
-                }
-              }
-              
-              db.query(
-                `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`,
-                [answers.firstName, answers.lastName, role.id, answers.manager.id],
-                (err, result) => {
-                  if (err) throw err;
-                  console.log(
-                    `Added ${answers.firstName} ${answers.lastName} to the database.`
-                  );
-                  Employee_Tracker();
-                }
-              );
-            });
-            
+                };
+             
+                db.query(
+                  `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?, ?)`,
+                  [answers.firstName, answers.lastName, role.id, answers.manager.id],
+                  (err, result) => {
+                    if (err) throw err;
+                    console.log(
+                      `Added ${answers.firstName} ${answers.lastName} to the database.`
+                    );
+                    Employee_Tracker();
+                  }
+                )};
+              });
+          });
+      }
   
       // Should View Update an Existing Employee Role in the DataBase
       else if (answers.prompt === 'Update an Existing Employee Role') {
         // Calling the database to acquire the roles and managers
         db.query(`SELECT * FROM employee, role`, (err, result) => {
           if (err) throw err;
-      
-          // Rest of your code here
-      
-        });
-      }
-      
-      
+  
           inquirer
             .prompt([
               {
@@ -331,12 +325,11 @@ function Employee_Tracker() {
         });
       }
   
-// Should let the User be able to log out.
-else if (answers.prompt === 'Log Out') {
-  console.log('Logging Out');
-  process.exit();
-}
-});
-
-// Closing brace for the Employee_Tracker function
-}
+      // Should let the User be able to log out.
+      else if (answers.prompt === 'Log Out') {
+        console.log('Logging Out');
+        process.exit()
+      }
+    });
+  }
+  
