@@ -1,3 +1,4 @@
+
 # Employee-Tracker
 
 ## Description: This application is a command-line based application that allows the user to track departments, roles, and employees. It also allows the user to add new Employees, new Roles, and a new Department. You have to run the applicaiton by going into the command line and type the following.
@@ -45,4 +46,4 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 ```
 ## Screenshot
-[Command Line]([screenshot\Command-line.png)
+![Command-line](https://user-images.githubusercontent.com/123604658/235376931-736cfc43-e4bc-424c-91f2-90310109f54b.png)
