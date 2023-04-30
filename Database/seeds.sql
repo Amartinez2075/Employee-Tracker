@@ -18,7 +18,6 @@ VALUES
     ('Auditor', 60232, 1),
     ('Senior Accountant', 100000, 1),
 
-    -- Utility Department Roles -2
     ('Janitor', 32000, 2),
     ('RepairPerson', 45000, 2),
     ('Electrician', 50000, 2),
