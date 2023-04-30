@@ -12,7 +12,7 @@ node index.js
 ## Installation
 ***Requirments***
 
-[MySQL](https://www.npmjs.com/package/mysql2) | [Inquirer](https://www.npmjs.com/package/inquirer) | [Npm](https://img.shields.io/badge/-npm-CB3837?logo=npm&logoColor=white)
+[MySQL](https://www.npmjs.com/package/mysql2) | [Inquirer](https://www.npmjs.com/package/inquirer) | [NPM](https://docs.npmjs.com/cli/v8/commands/npm-install)
 
 ***Once Installed:***
 1. Clone the Repository on to your machine.
