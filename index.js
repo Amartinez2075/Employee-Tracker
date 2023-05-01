@@ -92,12 +92,12 @@ function Employee_Tracker() {
             );
           });
       }
+
       // Should View Add a New Role in the DataBase
       else if (answers.prompt === 'Add a New Role') {
         // Beginning with the database so that we may acquire the departments for the choice
         db.query(`SELECT * FROM department`, (err, result) => {
           if (err) throw err;
-
           inquirer
             .prompt([
               {
@@ -163,19 +163,20 @@ function Employee_Tracker() {
             });
         });
       }
-      // Should View Add a New Employee in the DataBase
-      if (answers.prompt === 'Add a New Employee') {
-        // Calling the database to acquire the roles and managers
-        db.query(`SELECT * FROM employee, role`, (err, result) => {
-          if (err) throw err;
 
+
+      // Should View Add a New Employee in the DataBase
+      else if (answers.prompt === 'Add a New Employee') {
+        // Calling the database to acquire the roles and managers
+        db.query(`SELECT * FROM role`, (err, result) => {
+          if (err) throw err;
           inquirer
             .prompt([
               {
                 // Adding Employee First Name
                 type: 'input',
                 name: 'firstName',
-                message: 'What is the employee\'s first name?',
+                message: "What is the employee's first name?",
                 validate: (firstNameInput) => {
                   if (firstNameInput) {
                     return true;
@@ -189,7 +190,7 @@ function Employee_Tracker() {
                 // Adding Employee Last Name
                 type: 'input',
                 name: 'lastName',
-                message: 'What is the employee\'s last name?',
+                message: "What is the employee's last name?",
                 validate: (lastNameInput) => {
                   if (lastNameInput) {
                     return true;
@@ -203,7 +204,7 @@ function Employee_Tracker() {
                 // Adding Employee Role
                 type: 'list',
                 name: 'role',
-                message: 'What is the employee\'s role?',
+                message: "What is the employee's role?",
                 choices: () => {
                   var array = [];
                   for (var i = 0; i < result.length; i++) {
@@ -217,7 +218,7 @@ function Employee_Tracker() {
                 // Adding Employee Manager
                 type: 'input',
                 name: 'manager',
-                message: 'Who is the employee\'s manager?',
+                message: "Who is the employee's manager?",
                 validate: (managerInput) => {
                   if (managerInput) {
                     return true;
@@ -233,26 +234,33 @@ function Employee_Tracker() {
               for (var i = 0; i < result.length; i++) {
                 if (result[i].title === answers.role) {
                   var role = result[i];
-                };
-             
-                db.query(
-                  `INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)`,
-                  [answers.firstName, answers.lastName, role.id],
-                  (err, result) => {
-                    if (err) throw err;
-                    console.log(
-                      `Added ${answers.firstName} ${answers.lastName} to the database.`
-                    );
-                    Employee_Tracker();
-                  }
-            )};                
-      // Should View Update an Existing Employee Role in the DataBase
+                  break;
+                }
+              }
       
+              db.query(
+                `INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)`,
+                [answers.firstName, answers.lastName, role.id],
+                (err, result) => {
+                  if (err) throw err;
+                  console.log(
+                    `Added ${answers.firstName} ${answers.lastName} to the database.`
+                  );
+                  Employee_Tracker();
+                }
+              );
+            });
+        });
+      }
+         
+
+
+
+      // Should View Update an Existing Employee Role in the DataBase
       else if (answers.prompt === 'Update an Existing Employee Role') {
         // Calling the database to acquire the roles and managers
         db.query(`SELECT * FROM employee, role`, (err, result) => {
           if (err) throw err;
-      
           inquirer
             .prompt([
               {
@@ -309,15 +317,15 @@ function Employee_Tracker() {
         });
       }
       
-  
-      // Should View Update an Existing Department in the DataBase
+
+
+
     // Should View Update an Existing Department in the DataBase
 else if (answers.prompt === 'Update an Existing Department') {
   db.query(`SELECT * FROM department`, (err, result) => {
     if (err) throw err;
     console.log('Update an Existing Department');
     console.table(result);
-
     inquirer
       .prompt([
         {
@@ -358,6 +366,9 @@ else if (answers.prompt === 'Update an Existing Department') {
       });
   });
 }
+
+
+
       // Should let the User be able to log out.
       else if (answers.prompt === 'Log Out') {
         console.log('Logging Out');
@@ -365,4 +376,3 @@ else if (answers.prompt === 'Update an Existing Department') {
       }
     })
   }
-        )}})};
