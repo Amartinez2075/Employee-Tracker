@@ -163,7 +163,6 @@ function Employee_Tracker() {
             });
         });
       }
-
       // Should View Add a New Employee in the DataBase
       if (answers.prompt === 'Add a New Employee') {
         // Calling the database to acquire the roles and managers
