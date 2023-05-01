@@ -236,7 +236,7 @@ function Employee_Tracker() {
                 };
              
                 db.query(
-                  `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?,)`,
+                  `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?, ?)`,
                   [answers.firstName, answers.lastName, role.id, answers.manager.id],
                   (err, result) => {
                     if (err) throw err;
@@ -251,90 +251,11 @@ function Employee_Tracker() {
       }
   
       // Should View Update an Existing Employee Role in the DataBase
-      else if (answers.prompt === 'Update an Existing Department') {
-        // Calling the database to acquire the departments
-        db.query('SELECT * FROM department', (err, departments) => {
+      else if (answers.prompt === 'Update an Existing Employee Role') {
+        // Calling the database to acquire the roles and managers
+        db.query(`SELECT * FROM employee, role`, (err, result) => {
           if (err) throw err;
-      
-          // Display the list of departments to the user
-          console.log('Existing Departments:');
-          departments.forEach((department) => {
-            console.log(`- ${department.name}`);
-          });
-      
-          // Prompt the user to select a department to update or delete
-          inquirer
-            .prompt([
-              {
-                type: 'list',
-                name: 'departmentName',
-                message: 'Select a department to update or delete:',
-                choices: departments.map((department) => department.name),
-              },
-              {
-                type: 'list',
-                name: 'action',
-                message: 'Select an action:',
-                choices: ['Update department', 'Delete department'],
-              },
-            ])
-            .then((answers) => {
-              if (answers.action === 'Update department') {
-                // Prompt the user to enter the new department name
-                inquirer
-                  .prompt([
-                    {
-                      type: 'input',
-                      name: 'newDepartmentName',
-                      message: 'Enter the new department name:',
-                    },
-                  ])
-                  .then((updateAnswer) => {
-                    // Update the department in the database
-                    db.query(
-                      `UPDATE department SET name = ? WHERE name = ?`,
-                      [updateAnswer.newDepartmentName, answers.departmentName],
-                      (updateErr, updateResult) => {
-                        if (updateErr) throw updateErr;
-                        console.log('Department updated successfully!');
-                      }
-                    );
-                  });
-              } else if (answers.action === 'Delete department') {
-                // Confirm the deletion with the user
-                inquirer
-                  .prompt([
-                    {
-                      type: 'confirm',
-                      name: 'confirmDelete',
-                      message: 'Are you sure you want to delete the department?',
-                      default: false,
-                    },
-                  ])
-                  .then((deleteAnswer) => {
-                    if (deleteAnswer.confirmDelete) {
-                      // Delete the department from the database
-                      db.query(
-                        `DELETE FROM department WHERE name = ?`,
-                        [answers.departmentName],
-                        (deleteErr, deleteResult) => {
-                          if (deleteErr) throw deleteErr;
-                          console.log('Department deleted successfully!');
-                        }
-                      );
-                    } else {
-                      console.log('Deletion canceled.');
-                    }
-                  });
-              }
-            });
-        });
-      }// Should let the User be able to log out.
-      else if (answers.prompt === 'Log Out') {
-        console.log('Logging Out');
-        process.exit()
-      }
-
+  
           inquirer
             .prompt([
               {
@@ -391,7 +312,61 @@ function Employee_Tracker() {
               );
             });
         });
-      };
-    
+      }
+  
+      // Should View Update an Existing Department in the DataBase
+    // Should View Update an Existing Department in the DataBase
+else if (answers.prompt === 'Update an Existing Department') {
+  db.query(`SELECT * FROM department`, (err, result) => {
+    if (err) throw err;
+    console.log('Update an Existing Department');
+    console.table(result);
 
+    inquirer
+      .prompt([
+        {
+          // Choose a Department to Update
+          type: 'list',
+          name: 'departmentId',
+          message: 'Which department do you want to update?',
+          choices: result.map((department) => ({
+            name: department.name,
+            value: department.id,
+          })),
+        },
+        {
+          // Provide the New Name for the Department
+          type: 'input',
+          name: 'newName',
+          message: 'Enter the new name for the department:',
+          validate: (newNameInput) => {
+            if (newNameInput) {
+              return true;
+            } else {
+              console.log('Please enter a new name for the department!');
+              return false;
+            }
+          },
+        },
+      ])
+      .then((answers) => {
+        db.query(
+          `UPDATE department SET name = ? WHERE id = ?`,
+          [answers.newName, answers.departmentId],
+          (err, result) => {
+            if (err) throw err;
+            console.log('Department updated successfully.');
+            Employee_Tracker();
+          }
+        );
+      });
+  });
+}
+      // Should let the User be able to log out.
+      else if (answers.prompt === 'Log Out') {
+        console.log('Logging Out');
+        process.exit()
+      }
+    });
+  }
   
