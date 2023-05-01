@@ -329,8 +329,12 @@ function Employee_Tracker() {
               }
             });
         });
+      }// Should let the User be able to log out.
+      else if (answers.prompt === 'Log Out') {
+        console.log('Logging Out');
+        process.exit()
       }
-      
+
           inquirer
             .prompt([
               {
@@ -389,9 +393,5 @@ function Employee_Tracker() {
         });
       };
     
-      // Should let the User be able to log out.
-      else if (answers.prompt === 'Log Out') {
-        console.log('Logging Out');
-        process.exit()
-      }
+
   
