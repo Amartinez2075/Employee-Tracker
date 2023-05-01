@@ -236,7 +236,7 @@ function Employee_Tracker() {
                 };
              
                 db.query(
-                  `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?, ?)`,
+                  `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?,)`,
                   [answers.firstName, answers.lastName, role.id, answers.manager.id],
                   (err, result) => {
                     if (err) throw err;
