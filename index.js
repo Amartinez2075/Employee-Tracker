@@ -236,8 +236,8 @@ function Employee_Tracker() {
                 };
              
                 db.query(
-                  `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?, ?)`,
-                  [answers.firstName, answers.lastName, role.id, answers.manager.id],
+                  `INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)`,
+                  [answers.firstName, answers.lastName, role.id],
                   (err, result) => {
                     if (err) throw err;
                     console.log(
@@ -245,17 +245,14 @@ function Employee_Tracker() {
                     );
                     Employee_Tracker();
                   }
-                )};
-              });
-          });
-      }
-  
+            )};                
       // Should View Update an Existing Employee Role in the DataBase
+      
       else if (answers.prompt === 'Update an Existing Employee Role') {
         // Calling the database to acquire the roles and managers
         db.query(`SELECT * FROM employee, role`, (err, result) => {
           if (err) throw err;
-  
+      
           inquirer
             .prompt([
               {
@@ -294,25 +291,24 @@ function Employee_Tracker() {
                   var name = result[i];
                 }
               }
-  
+      
               for (var i = 0; i < result.length; i++) {
                 if (result[i].title === answers.role) {
                   var role = result[i];
                 }
               }
-  
-              db.query(
-                `UPDATE employee SET ? WHERE ?`,
-                [{ role_id: role.id }, { last_name: name.last_name }],
-                (err, result) => {
-                  if (err) throw err;
-                  console.log(`Updated ${answers.employee}'s role in the database.`);
-                  Employee_Tracker();
-                }
-              );
+      
+              const updateQuery = `UPDATE employee SET role_id = ? WHERE last_name = ?`;
+      
+              db.query(updateQuery, [role.id, name.last_name], (err, result) => {
+                if (err) throw err;
+                console.log(`Updated ${answers.employee}'s role in the database.`);
+                Employee_Tracker();
+              });
             });
         });
       }
+      
   
       // Should View Update an Existing Department in the DataBase
     // Should View Update an Existing Department in the DataBase
@@ -367,6 +363,6 @@ else if (answers.prompt === 'Update an Existing Department') {
         console.log('Logging Out');
         process.exit()
       }
-    });
+    })
   }
-  
+        )}})};
