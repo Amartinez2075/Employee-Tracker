@@ -26,9 +26,11 @@ function Employee_Tracker() {
           'View All Employees',
           'Add a New Department',
           'Add a New Role',
-          'Add a New Employee',
+          'Add a New Employee', //Needs a fix
           'Update an Existing Employee Role',
           'Update an Existing Department',
+          // M8 + l8r'View Employee By Department'
+          //M8 + l8r'View Employee By Manager'
           'Log Out',
         ], // Might add other elements later
       },
@@ -317,8 +319,6 @@ function Employee_Tracker() {
         });
       }
       
-
-
 
     // Should View Update an Existing Department in the DataBase
 else if (answers.prompt === 'Update an Existing Department') {
