@@ -12,6 +12,8 @@ node index.js
 
 [MySQL](https://www.npmjs.com/package/mysql2) | [Inquirer](https://www.npmjs.com/package/inquirer) | [NPM](https://docs.npmjs.com/cli/v8/commands/npm-install)
 
+***You Must put your Mysql passoword inside of a .env file for it to work.
+
 ***Once Installed:***
 1. Clone the Repository on to your machine.
 2. Open the terminal and ensure you are in the right file path.
@@ -49,4 +51,5 @@ THEN I am prompted to select an employee to update and their new role and this i
 ![Command-line](https://user-images.githubusercontent.com/123604658/235376931-736cfc43-e4bc-424c-91f2-90310109f54b.png)
 
 ## Video Showing Functionality
-![Showcase]
+[Employee Tracker.webm](https://user-images.githubusercontent.com/123604658/235568335-90ad41dd-5e22-4357-97a4-c52f00b6058a.webm)
+
